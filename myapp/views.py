@@ -40,3 +40,8 @@ from myapp.models import User
 #                 "error": str(e) # 不過比起這樣打印，我比較想記入日誌就好
 #             }
 #         return JsonResponse(response_data)
+
+# ChatGPT範式
+# class AuthorListView(generics.ListAPIView):
+#     queryset = Author.objects.all()
+#     serializer_class = AuthorSerializer
