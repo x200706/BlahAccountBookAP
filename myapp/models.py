@@ -14,7 +14,7 @@ class Account(models.Model):
         choices=IorO.choices,
         default=IorO.OUTPUT,
     )
-    kind = models.ForeignKey(ItemKinds,  on_delete=models.CASCADE)
+    kind = models.ForeignKey('ItemKinds',  on_delete=models.CASCADE)
 
 class ItemKinds(models.Model):
     kind = models.CharField(primary_key=True, max_length=10) # 假裝綜合所得稅代號是"iitax"，好吧給10個字元
