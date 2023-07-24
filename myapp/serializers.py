@@ -8,8 +8,8 @@ class AccountSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ItemKindsSerializer(serializers.ModelSerializer):
-    kind = AccountSerializer(many=True, read_only=True)
-
+    accounts = AccountSerializer(many=True, read_only=True)  # Change 'kind' to 'accounts'
+    
     class Meta:
         model = ItemKinds
-        fields = ['kind', 'desc']
+        fields = ['accounts', 'desc']  # Add 'desc' field to the serializer
