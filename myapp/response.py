@@ -3,7 +3,7 @@ class ResponseTool():
     def jsob_res(data):
         try:
             response_data = {
-                "message": "Success",
+                "message": "成功",
                 "code": "SUCCESS",
                 "data": data
             }
@@ -11,7 +11,7 @@ class ResponseTool():
             response_data = {
                 "message": "Something throw a exception.",
                 "code": "SOME_EXCEPTION",
-                "error": str(e) # 不過比起這樣打印，我還想計入日誌
+                "error": str(e)
             }
         return JsonResponse(response_data, safe=False)
     
