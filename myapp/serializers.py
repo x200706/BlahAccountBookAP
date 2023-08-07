@@ -14,7 +14,8 @@ class ItemKindsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class AccountsWithKindsMemoSerializer(serializers.ModelSerializer):
-    item_kinds = ItemKindsSerializer(many=True, read_only= True)
+    kind_desc = serializers.CharField(source='kind.desc', read_only=True)  # 添加 kind_desc 字段
+
     class Meta:
         model = Account
-        fields = ['item_kinds','desc']
+        fields = '__all__'
