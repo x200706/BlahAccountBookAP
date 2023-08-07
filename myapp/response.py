@@ -1,17 +1,19 @@
 from django.http import JsonResponse
 class ResponseTool():
-    def jsob_res(data):
-        try:
-            response_data = {
-                "message": "成功",
-                "code": "SUCCESS",
-                "data": data
-            }
-        except Exception as e:
-            response_data = {
-                "message": "Something throw a exception.",
-                "code": "SOME_EXCEPTION",
-                "error": str(e)
-            }
+    def success_json_res(data):
+        response_data = {
+            "code": "SUCCESS",
+            "message": "成功",
+            "data": data
+        }
         return JsonResponse(response_data, safe=False)
+    
+    def exception_json_res(Exception):
+        response_data = {
+            "code": "SOME_EXCEPTION",
+            "message": str(Exception),
+            "data": {}
+        }
+        return JsonResponse(response_data, safe=False)
+    
     
