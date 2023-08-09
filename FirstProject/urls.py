@@ -21,5 +21,7 @@ from django.urls import path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', views.AccountView.as_view()),
+    path('accounts/<id>', views.AccountView.as_view()),
     path('itemkinds/', views.ItemKindsView.as_view()),
+    path('itemkinds/<kind>', views.ItemKindsView.as_view()),
 ]
