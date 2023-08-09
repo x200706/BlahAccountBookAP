@@ -10,7 +10,7 @@ from myapp.response import ResponseTool
 
 class AccountView(GenericAPIView):
     queryset = Account.objects.all()
-    def get(self, id):
+    def get(self, request, id):
         accounts = self.get_queryset()
         serializer_class = AccountsWithKindsMemoSerializer
         serializer = serializer_class(accounts, many=True)
@@ -34,7 +34,7 @@ class ItemKindsView(GenericAPIView):
     queryset = ItemKinds.objects.all()
     serializer_class = ItemKindsSerializer
     # 查看所有類別
-    def get(self, kind):
+    def get(self, request, kind):
         item_kinds = self.get_queryset()
         serializer = self.serializer_class(item_kinds, many=True)
         data = serializer.data
