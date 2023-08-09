@@ -11,11 +11,15 @@ from myapp.response import ResponseTool
 class AccountView(GenericAPIView):
     queryset = Account.objects.all()
     def get(self, request, id):
-        accounts = self.get_queryset()
-        serializer_class = AccountsWithKindsMemoSerializer
-        serializer = serializer_class(accounts, many=True)
-        data = serializer.data
-        return ResponseTool.success_json_res(data)
+        if id != "":
+            # 待撰寫
+            return ResponseTool.success_json_res({})
+        else:
+            accounts = self.get_queryset()
+            serializer_class = AccountsWithKindsMemoSerializer
+            serializer = serializer_class(accounts, many=True)
+            data = serializer.data
+            return ResponseTool.success_json_res(data)
 
     # 新增單條記帳
     def post(self, request, *args, **kwargs):
