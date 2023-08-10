@@ -9,20 +9,22 @@ from myapp.models import Account
 from myapp.response import ResponseTool
 
 class AccountView(GenericAPIView):
-    queryset = Account.objects.all()
-    def get(self, request, id):
-        if id != "":
-            # 待撰寫
-            return ResponseTool.success_json_res({})
-        else:
-            accounts = self.get_queryset()
-            serializer_class = AccountsWithKindsMemoSerializer
-            serializer = serializer_class(accounts, many=True)
+    serializer_class = AccountsWithKindsMemoSerializer
+    def get(self, request, *args, **kwargs): # self跟request在這邊都是必傳！
+        print(kwargs.get('id'))
+        if kwargs.get('id') != None: # 查看單筆記帳
+            accounts = Account.objects.get(id=kwargs.get('id'))
+            serializer = self.serializer_class(accounts, many=False) # 單筆查詢記得給many關閉，不然會警告你"查詢結果是不可迭代的"
+            data = serializer.data
+            return ResponseTool.success_json_res(data)
+        else: # 查看所有記帳
+            accounts = Account.objects.all()
+            serializer = self.serializer_class(accounts, many=True)
             data = serializer.data
             return ResponseTool.success_json_res(data)
 
-    # 新增單條記帳
-    def post(self, request, *args, **kwargs):
+    # 新增單筆記帳
+    def post(self, request,*args, **kwargs):
         data = request.data
         try:
             serializer_class = AccountSerializer
@@ -35,18 +37,22 @@ class AccountView(GenericAPIView):
             return ResponseTool.exception_json_res(data)
     
 class ItemKindsView(GenericAPIView):
-    queryset = ItemKinds.objects.all()
     serializer_class = ItemKindsSerializer
     # 查看所有類別
-    def get(self, request, kind):
-        item_kinds = self.get_queryset()
-        serializer = self.serializer_class(item_kinds, many=True)
-        data = serializer.data
-        return ResponseTool.success_json_res(data)
-    # 查看單個類別
+    def get(self, request, *args, **kwargs):
+        if kwargs.get('kind') != None: # 查看單個類別
+            item_kinds = ItemKinds.objects.get(kind=kwargs.get('kind'))
+            serializer = self.serializer_class(item_kinds, many=False)
+            data = serializer.data
+            return ResponseTool.success_json_res(data)
+        else: # 查看所有類別
+            item_kinds = ItemKinds.objects.all()
+            serializer = self.serializer_class(item_kinds, many=True)
+            data = serializer.data
+            return ResponseTool.success_json_res(data)
 
     # 新增單個類別
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
             data = request.data
             try:
                 serializer = self.serializer_class(data=data)
