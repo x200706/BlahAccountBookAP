@@ -94,7 +94,7 @@ class ItemKindsView(GenericAPIView):
         except Exception as e:
             return ResponseTool.exception_json_res(e)
         serializer_class = self.serializer_class
-        serializer = serializer_class(instance=entity,data=data,partial=False) # 之後要改成局部修改..
+        serializer = serializer_class(instance=entity,data=data,partial=True) # 但沒做不能改pk的限制...
         serializer.is_valid(raise_exception=True)
         with transaction.atomic():
                 serializer.save()
