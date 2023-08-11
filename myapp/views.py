@@ -61,7 +61,6 @@ class AccountView(GenericAPIView):
     
 class ItemKindsView(GenericAPIView):
     serializer_class = ItemKindsSerializer
-    # 查看所有類別
     def get(self, request, *args, **kwargs):
         if kwargs.get('kind') != None: # 查看單個類別
             item_kinds = ItemKinds.objects.get(kind=kwargs.get('kind'))
