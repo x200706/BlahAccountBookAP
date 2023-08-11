@@ -34,7 +34,35 @@ class AccountView(GenericAPIView):
                 serializer.save()
             return ResponseTool.success_json_res({})
         except Exception as e:
-            return ResponseTool.exception_json_res(data)
+            return ResponseTool.exception_json_res(e)
+   
+    # 修改單筆記帳
+    def put(self, request,*args, **kwargs):
+        data = request.data
+        try:
+            entity = Account.objects.get(id=kwargs.get('id'))
+        except Exception as e:
+            return ResponseTool.exception_json_res(e)
+        serializer_class = AccountSerializer
+        serializer = serializer_class(instance=entity,data=data,partial=False)
+        serializer.is_valid(raise_exception=True)
+        with transaction.atomic():
+                serializer.save()
+        return ResponseTool.success_json_res({})
+
+
+    # 刪除單筆記帳
+    def delete(self, request,*args, **kwargs):
+        data = request.data
+        try:
+            serializer_class = AccountSerializer
+            serializer = serializer_class(data=data)
+            serializer.is_valid(raise_exception=True)
+            with transaction.atomic():
+                serializer.save()
+            return ResponseTool.success_json_res({})
+        except Exception as e:
+            return ResponseTool.exception_json_res(e)
     
 class ItemKindsView(GenericAPIView):
     serializer_class = ItemKindsSerializer
@@ -53,6 +81,18 @@ class ItemKindsView(GenericAPIView):
 
     # 新增單個類別
     def post(self, request):
+            data = request.data
+            try:
+                serializer = self.serializer_class(data=data)
+                serializer.is_valid(raise_exception=True)
+                with transaction.atomic():
+                    serializer.save()
+                return ResponseTool.success_json_res({})
+            except Exception as e:
+                return ResponseTool.exception_json_res(data)
+    
+    # 修改單個類別desc
+    def put(self, request):
             data = request.data
             try:
                 serializer = self.serializer_class(data=data)
