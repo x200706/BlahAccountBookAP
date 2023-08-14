@@ -98,3 +98,29 @@ class ItemKindsView(GenericAPIView):
         with transaction.atomic():
                 serializer.save()
         return ResponseTool.success_json_res({})
+    
+class CanvaView:
+    def current_month_pie(self, request):
+        accounts = Account.objects.all()
+        data = {}
+        return ResponseTool.success_json_res(data)
+
+    def expenditure_bar(self, request):
+        accounts = Account.objects.all()
+        data = {}
+        return ResponseTool.success_json_res(data)
+
+    def income_bar(self, request):
+        accounts = Account.objects.all()
+        data = {}
+        return ResponseTool.success_json_res(data)
+
+    def top_ten_list(self, request):
+        accounts = Account.objects.all()
+        data = {}
+        return ResponseTool.success_json_res(data)
+
+    def total_assets(self, request):
+        accounts = Account.objects.all()
+        data = {}
+        return ResponseTool.success_json_res(data)
