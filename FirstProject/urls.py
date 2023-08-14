@@ -25,9 +25,9 @@ urlpatterns = [
     path('itemkinds/', views.ItemKindsView.as_view()),
     path('itemkinds/<kind>', views.ItemKindsView.as_view()),
     # 因為希望在Swagger上呈現，所以還是把所有路徑刻出來，說實話這邊並不RESTful
-    path('canva/CurrentMonthPie', views.CanvaView.as_view().current_month_pie),
-    path('canva/ExpenditureBar', views.CanvaView.as_view().expenditure_bar),
-    path('canva/IncomeBar', views.CanvaView.as_view().income_bar),
-    path('canva/TopTenList', views.CanvaView.as_view().top_ten_list),
-    path('canva/TotalAssets', views.CanvaView.as_view().total_assets)
+    path('canva/CurrentMonthPie', views.CanvaView().current_month_pie),
+    path('canva/ExpenditureBar', views.CanvaView().expenditure_bar),
+    path('canva/IncomeBar', views.CanvaView().income_bar),
+    path('canva/TopTenList', views.CanvaView().top_ten_list),
+    path('canva/TotalAssets', views.CanvaView().total_assets)
 ]

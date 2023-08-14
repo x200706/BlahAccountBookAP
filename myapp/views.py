@@ -99,7 +99,7 @@ class ItemKindsView(GenericAPIView):
                 serializer.save()
         return ResponseTool.success_json_res({})
     
-class CanvaView:
+class CanvaView(GenericAPIView):
     def current_month_pie(self, request):
         accounts = Account.objects.all()
         data = {}
