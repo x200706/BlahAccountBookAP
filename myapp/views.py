@@ -108,13 +108,48 @@ class CanvaView(GenericAPIView):
         return ResponseTool.success_json_res(data)
 
     def expenditure_bar(self, request):
-        accounts = Account.objects.all()
         data = {}
+        now = datetime.datetime.now()
+        # 收集去年月份
+        last_year =  int(now.year) -1
+        last_year_months = range(now.month+1, 13)
+        for last_year_month in last_year_months:
+            month_key = '%s_%s' % (last_year, last_year_month)
+            data[month_key]=[] # 建立每個月份的list
+            accounts = Account.objects.filter(date__year=last_year).filter(date__month=last_year_month).filter(io='OUTPUT')
+            for node in accounts:
+                data[month_key].append(node.price)
+            # 加總
+            data[month_key] = sum(data[month_key])
+       
+        # 收集今年月份
+        today_year = now.year
+        today_year_months = range(1,now.month+1)
+        for today_year_month in today_year_months:
+            month_key = '%s_%s' % (today_year, today_year_month)
+            data[month_key]=[] # 建立每個月份的list
+            accounts = Account.objects.filter(date__year=today_year).filter(date__month=today_year_month).filter(io='OUTPUT')
+            for node in accounts:
+                data[month_key].append(node.price)
+            # 加總
+            data[month_key] = sum(data[month_key])
         return ResponseTool.success_json_res(data)
 
     def income_bar(self, request):
         data = {}
         now = datetime.datetime.now()
+        # 收集去年月份
+        last_year =  int(now.year) -1
+        last_year_months = range(now.month+1, 13)
+        for last_year_month in last_year_months:
+            month_key = '%s_%s' % (last_year, last_year_month)
+            data[month_key]=[] # 建立每個月份的list
+            accounts = Account.objects.filter(date__year=last_year).filter(date__month=last_year_month).filter(io='INPUT')
+            for node in accounts:
+                data[month_key].append(node.price)
+            # 加總
+            data[month_key] = sum(data[month_key])
+       
         # 收集今年月份
         today_year = now.year
         today_year_months = range(1,now.month+1)
@@ -126,20 +161,6 @@ class CanvaView(GenericAPIView):
                 data[month_key].append(node.price)
             # 加總
             data[month_key] = sum(data[month_key])
-
-        # 如果data沒有12個key len(data.keys())；會做這樣的判斷 因為想減少DB連線次數 雖然只有年底會節省到-.-
-        if len(data.keys()) < 12:
-            # 繼續收集去年月份
-            last_year =  int(now.year) -1
-            last_year_months = range(now.month+1, 13)
-            for last_year_month in last_year_months:
-                month_key = '%s_%s' % (last_year, last_year_month)
-                data[month_key]=[] # 建立每個月份的list
-                accounts = Account.objects.filter(date__year=last_year).filter(date__month=last_year_month).filter(io='INPUT')
-                for node in accounts:
-                    data[month_key].append(node.price)
-                # 加總
-                data[month_key] = sum(data[month_key])
         return ResponseTool.success_json_res(data)
 
     def top_ten_list(self, request):
