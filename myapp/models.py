@@ -6,6 +6,7 @@ class Account(models.Model): #對多
     id = models.AutoField(primary_key=True)
     item_name = models.CharField(max_length=50)
     date = models.DateField()
+    price = models.IntegerField()
     class IorO(models.TextChoices):
         OUTPUT = 'OUTPUT', _('支出')
         INPUT = 'INPUT', _('收入')
