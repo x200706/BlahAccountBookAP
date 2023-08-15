@@ -121,13 +121,15 @@ class CanvaView(GenericAPIView):
         return ResponseTool.success_json_res(data)
 
     def total_assets(self, request):
-        # price_list
+        price_list = []
+
         input = Account.objects.filter(io='INPUT')
-        # for node in input:
-        #     put(node.price)
+        for node in input:
+            price_list.append(node.price)
+
         output = Account.objects.filter(io='OUTPUT')
-        # for node in output:
-        #     put(node.price) # 轉負號
-        # sum price_list
-        data = {}
+        for node in output:
+            price_list.append(-node.price) #轉負號
+
+        data = {'value':sum(price_list)}
         return ResponseTool.success_json_res(data)
