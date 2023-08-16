@@ -103,8 +103,20 @@ class ItemKindsView(GenericAPIView):
 class CanvaView(GenericAPIView):
     serializer_class = AccountsWithKindsMemoSerializer
     def current_month_pie(self, request):
-        accounts = Account.objects.all()
-        data = {}
+        data_for_update = {} # {"kind":{}}
+        accounts = Account.objects.filter(io="OUTPUT")
+        # for each
+        for node in accounts:
+            if not data_for_update.__contains__(node.kind.kind): # 如果不存在這筆資料
+                src_dict = {"kind":node.kind.kind,"desc":node.kind.desc,"price":[]}
+                src_dict["price"].append(node.price)
+                data_for_update[node.kind.kind] = src_dict # 新增一個字典
+            else: # 如果存在
+                data_for_update[node.kind.kind]["price"].append(node.price) # 把錢的資訊放進既有字典內
+        data = [] # [{},{}]
+        for node in data_for_update:
+            data_for_update[node]["price"] = sum(data_for_update[node]["price"])
+            data.append(data_for_update[node])
         return ResponseTool.success_json_res(data)
 
     def expenditure_bar(self, request):
